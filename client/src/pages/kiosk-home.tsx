@@ -12,21 +12,38 @@ import schoolLogo from '@assets/generated_images/School_logo_icon_4eb4a5ce.png';
 
 const IDLE_TIMEOUT = 60000;
 
-const floors = ['Prízemie', '1. poschodie', '2. poschodie', '3. poschodie'];
+const floors = ['Prízemie', '1. poschodie', '2. poschodie', '3. poschodie', '4. poschodie'];
 
 const mockLocations: Location[] = [
-  { id: '101', name: 'Riaditeľstvo', roomNumber: '101', floor: 'Prízemie', type: 'office', description: 'Školská administratíva a recepcia' },
-  { id: '102', name: 'Informačné centrum', roomNumber: '102', floor: 'Prízemie', type: 'facility', description: 'Informácie pre študentov' },
-  { id: '103', name: 'Sekretariát', roomNumber: '103', floor: 'Prízemie', type: 'office', description: 'Administratívne služby' },
-  { id: '201', name: 'Stavebná geodézia', roomNumber: '201', floor: '1. poschodie', type: 'department', description: 'Oddelenie stavebnej geodézie' },
-  { id: '202', name: 'Pozemné staviteľstvo', roomNumber: '202', floor: '1. poschodie', type: 'department', description: 'Oddelenie pozemného staviteľstva' },
-  { id: '203', name: 'Laboratórium A', roomNumber: '203', floor: '1. poschodie', type: 'classroom', description: 'Odborné laboratórium' },
-  { id: '204', name: 'Počítačová učebňa', roomNumber: '204', floor: '1. poschodie', type: 'classroom', description: 'Výpočtová technika' },
-  { id: '301', name: 'Kreslica 1', roomNumber: '301', floor: '2. poschodie', type: 'classroom', description: 'Učebňa technického kreslenia' },
-  { id: '302', name: 'Kreslica 2', roomNumber: '302', floor: '2. poschodie', type: 'classroom', description: 'Učebňa technického kreslenia' },
-  { id: '303', name: 'Laboratórium B', roomNumber: '303', floor: '2. poschodie', type: 'classroom', description: 'Odborné laboratórium' },
-  { id: '401', name: 'Telocvičňa', roomNumber: '401', floor: '3. poschodie', type: 'facility', description: 'Športové zariadenie' },
-  { id: '402', name: 'Aula', roomNumber: '402', floor: '3. poschodie', type: 'facility', description: 'Spoločenská miestnosť' },
+  { id: '5', name: 'Učebňa 5', roomNumber: '5', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
+  { id: '6', name: 'Učebňa 6', roomNumber: '6', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
+  { id: '7', name: 'Učebňa 7', roomNumber: '7', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
+  { id: '8', name: 'Učebňa 8', roomNumber: '8', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
+  { id: '9', name: 'Učebňa 9', roomNumber: '9', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
+  { id: '10', name: 'Učebňa 10', roomNumber: '10', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
+  { id: '11', name: 'Učebňa 11', roomNumber: '11', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '12', name: 'Učebňa 12', roomNumber: '12', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '13', name: 'Učebňa 13', roomNumber: '13', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '14', name: 'Učebňa 14', roomNumber: '14', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '15', name: 'Učebňa 15', roomNumber: '15', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '16', name: 'Učebňa 16', roomNumber: '16', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '17', name: 'Učebňa 17', roomNumber: '17', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '18', name: 'Učebňa 18', roomNumber: '18', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '19', name: 'Učebňa 19', roomNumber: '19', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '20', name: 'Učebňa 20', roomNumber: '20', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '21', name: 'Učebňa 21', roomNumber: '21', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '22', name: 'Učebňa 22', roomNumber: '22', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '23', name: 'Učebňa 23', roomNumber: '23', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '24', name: 'Učebňa 24', roomNumber: '24', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '25', name: 'Učebňa 25', roomNumber: '25', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '26', name: 'Učebňa 26', roomNumber: '26', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '27', name: 'Učebňa 27', roomNumber: '27', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '28', name: 'Učebňa 28', roomNumber: '28', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '29', name: 'Učebňa 29', roomNumber: '29', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '30', name: 'Učebňa 30', roomNumber: '30', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+  { id: '401', name: 'Riaditeľstvo', roomNumber: '401', floor: '4. poschodie', type: 'office', description: 'Školská administratíva a vedenie školy' },
+  { id: '402', name: 'Sekretariát', roomNumber: '402', floor: '4. poschodie', type: 'office', description: 'Administratívne služby' },
+  { id: '403', name: 'Zborovňa', roomNumber: '403', floor: '4. poschodie', type: 'office', description: 'Miestnosť pre učiteľov' },
 ];
 
 export default function KioskHome() {

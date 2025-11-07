@@ -1,4 +1,4 @@
-import { Building2, Utensils, BookOpen, Heart, DoorOpen, MapPin } from 'lucide-react';
+import { Building2, DoorOpen, MapPin, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface QuickAccessItem {
@@ -13,6 +13,7 @@ interface QuickAccessGridProps {
 
 const quickAccessItems: QuickAccessItem[] = [
   { id: 'office', label: 'Riaditeľstvo', icon: <Building2 className="h-12 w-12" /> },
+  { id: 'classroom', label: 'Učebne', icon: <GraduationCap className="h-12 w-12" /> },
   { id: 'restrooms', label: 'WC', icon: <DoorOpen className="h-12 w-12" /> },
   { id: 'emergency', label: 'Núdzový východ', icon: <MapPin className="h-12 w-12" /> },
 ];
