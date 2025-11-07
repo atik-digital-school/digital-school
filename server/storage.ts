@@ -1,38 +1,32 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { type Location, type InsertLocation, locations } from "@shared/schema";
+import { db } from "@db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getAllLocations(): Promise<Location[]>;
+  getLocationById(id: string): Promise<Location | undefined>;
+  getLocationsByFloor(floor: string): Promise<Location[]>;
+  createLocation(location: InsertLocation): Promise<Location>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DbStorage implements IStorage {
+  async getAllLocations(): Promise<Location[]> {
+    return await db.select().from(locations);
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getLocationById(id: string): Promise<Location | undefined> {
+    const result = await db.select().from(locations).where(eq(locations.id, id));
+    return result[0];
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async getLocationsByFloor(floor: string): Promise<Location[]> {
+    return await db.select().from(locations).where(eq(locations.floor, floor));
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async createLocation(insertLocation: InsertLocation): Promise<Location> {
+    const result = await db.insert(locations).values(insertLocation).returning();
+    return result[0];
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DbStorage();

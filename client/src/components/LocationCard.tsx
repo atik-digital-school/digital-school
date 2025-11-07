@@ -6,8 +6,8 @@ export interface Location {
   name: string;
   roomNumber: string;
   floor: string;
-  type: 'classroom' | 'office' | 'facility' | 'department';
-  description?: string;
+  type: string;
+  description: string | null;
 }
 
 interface LocationCardProps {
@@ -15,7 +15,7 @@ interface LocationCardProps {
   onClick: () => void;
 }
 
-const iconMap = {
+const iconMap: Record<string, React.ElementType> = {
   classroom: DoorOpen,
   office: Building2,
   facility: MapPin,
@@ -23,7 +23,7 @@ const iconMap = {
 };
 
 export default function LocationCard({ location, onClick }: LocationCardProps) {
-  const Icon = iconMap[location.type];
+  const Icon = iconMap[location.type] || DoorOpen;
   
   return (
     <Button
