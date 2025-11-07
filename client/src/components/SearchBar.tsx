@@ -8,7 +8,7 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-export default function SearchBar({ value, onChange, placeholder = "Search for rooms, offices, or facilities..." }: SearchBarProps) {
+export default function SearchBar({ value, onChange, placeholder = "Vyhľadajte miestnosti, kancelárie alebo zariadenia..." }: SearchBarProps) {
   return (
     <div className="relative w-full">
       <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />

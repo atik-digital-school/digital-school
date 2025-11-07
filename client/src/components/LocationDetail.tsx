@@ -40,9 +40,9 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
           <div className="flex items-start gap-4">
             <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
             <div>
-              <div className="text-lg font-medium">Location</div>
+              <div className="text-lg font-medium">Poloha</div>
               <div className="text-xl text-muted-foreground">
-                Room {location.roomNumber} • {location.floor}
+                Miestnosť {location.roomNumber} • {location.floor}
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
             <div className="flex items-start gap-4">
               <div className="h-6 w-6 flex-shrink-0" />
               <div>
-                <div className="text-lg font-medium">Description</div>
+                <div className="text-lg font-medium">Popis</div>
                 <div className="text-xl text-muted-foreground">
                   {location.description}
                 </div>
@@ -62,9 +62,9 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
           <div className="flex items-start gap-4">
             <Clock className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
             <div>
-              <div className="text-lg font-medium">Hours</div>
+              <div className="text-lg font-medium">Otváracie hodiny</div>
               <div className="text-xl text-muted-foreground">
-                Monday - Friday: 8:00 AM - 3:30 PM
+                Pondelok - Piatok: 8:00 - 15:30
               </div>
             </div>
           </div>
@@ -72,9 +72,9 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
           <div className="flex items-start gap-4">
             <Phone className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
             <div>
-              <div className="text-lg font-medium">Contact</div>
+              <div className="text-lg font-medium">Kontakt</div>
               <div className="text-xl text-muted-foreground">
-                Ext. {location.roomNumber}
+                Linka {location.roomNumber}
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
             data-testid="button-show-route"
           >
             <Navigation className="h-6 w-6" />
-            Show Route
+            Zobraziť trasu
           </Button>
         </div>
       </DialogContent>

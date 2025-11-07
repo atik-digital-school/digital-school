@@ -42,10 +42,10 @@ export default function IdleScreen({ onActivate }: IdleScreenProps) {
         
         <div className="text-center space-y-6">
           <h1 className="text-7xl font-bold text-white drop-shadow-lg" data-testid="text-welcome">
-            Welcome to Campus
+            SPŠ stavebná a geodetická
           </h1>
           <p className="text-5xl text-white/90 animate-pulse" data-testid="text-tap-prompt">
-            Tap Anywhere to Start
+            Kliknite kdekoľvek pre začatie
           </p>
         </div>
       </div>

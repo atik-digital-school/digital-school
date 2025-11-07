@@ -12,12 +12,9 @@ interface QuickAccessGridProps {
 }
 
 const quickAccessItems: QuickAccessItem[] = [
-  { id: 'office', label: 'Main Office', icon: <Building2 className="h-12 w-12" /> },
-  { id: 'cafeteria', label: 'Cafeteria', icon: <Utensils className="h-12 w-12" /> },
-  { id: 'library', label: 'Library', icon: <BookOpen className="h-12 w-12" /> },
-  { id: 'nurse', label: 'Nurse', icon: <Heart className="h-12 w-12" /> },
-  { id: 'restrooms', label: 'Restrooms', icon: <DoorOpen className="h-12 w-12" /> },
-  { id: 'emergency', label: 'Emergency Exit', icon: <MapPin className="h-12 w-12" /> },
+  { id: 'office', label: 'Riaditeľstvo', icon: <Building2 className="h-12 w-12" /> },
+  { id: 'restrooms', label: 'WC', icon: <DoorOpen className="h-12 w-12" /> },
+  { id: 'emergency', label: 'Núdzový východ', icon: <MapPin className="h-12 w-12" /> },
 ];
 
 export default function QuickAccessGrid({ onSelect }: QuickAccessGridProps) {

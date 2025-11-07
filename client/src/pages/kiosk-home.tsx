@@ -12,35 +12,34 @@ import schoolLogo from '@assets/generated_images/School_logo_icon_4eb4a5ce.png';
 
 const IDLE_TIMEOUT = 60000;
 
-const floors = ['Ground Floor', 'Floor 1', 'Floor 2', 'Floor 3'];
+const floors = ['Prízemie', '1. poschodie', '2. poschodie', '3. poschodie'];
 
 const mockLocations: Location[] = [
-  { id: '101', name: 'Main Office', roomNumber: '101', floor: 'Ground Floor', type: 'office', description: 'School administration and reception' },
-  { id: '102', name: 'Cafeteria', roomNumber: '102', floor: 'Ground Floor', type: 'facility', description: 'Student dining area' },
-  { id: '103', name: 'Library', roomNumber: '103', floor: 'Ground Floor', type: 'facility', description: 'Media center and study area' },
-  { id: '104', name: "Nurse's Office", roomNumber: '104', floor: 'Ground Floor', type: 'office', description: 'Health services' },
-  { id: '201', name: 'English Department', roomNumber: '201', floor: 'Floor 1', type: 'department' },
-  { id: '202', name: 'Math Department', roomNumber: '202', floor: 'Floor 1', type: 'department' },
-  { id: '203', name: 'Science Lab A', roomNumber: '203', floor: 'Floor 1', type: 'classroom' },
-  { id: '204', name: 'Computer Lab', roomNumber: '204', floor: 'Floor 1', type: 'classroom' },
-  { id: '301', name: 'Art Studio', roomNumber: '301', floor: 'Floor 2', type: 'classroom' },
-  { id: '302', name: 'Music Room', roomNumber: '302', floor: 'Floor 2', type: 'classroom' },
-  { id: '303', name: 'Biology Lab', roomNumber: '303', floor: 'Floor 2', type: 'classroom' },
-  { id: '401', name: 'Gymnasium', roomNumber: '401', floor: 'Floor 3', type: 'facility' },
-  { id: '402', name: 'Auditorium', roomNumber: '402', floor: 'Floor 3', type: 'facility' },
+  { id: '101', name: 'Riaditeľstvo', roomNumber: '101', floor: 'Prízemie', type: 'office', description: 'Školská administratíva a recepcia' },
+  { id: '102', name: 'Informačné centrum', roomNumber: '102', floor: 'Prízemie', type: 'facility', description: 'Informácie pre študentov' },
+  { id: '103', name: 'Sekretariát', roomNumber: '103', floor: 'Prízemie', type: 'office', description: 'Administratívne služby' },
+  { id: '201', name: 'Stavebná geodézia', roomNumber: '201', floor: '1. poschodie', type: 'department', description: 'Oddelenie stavebnej geodézie' },
+  { id: '202', name: 'Pozemné staviteľstvo', roomNumber: '202', floor: '1. poschodie', type: 'department', description: 'Oddelenie pozemného staviteľstva' },
+  { id: '203', name: 'Laboratórium A', roomNumber: '203', floor: '1. poschodie', type: 'classroom', description: 'Odborné laboratórium' },
+  { id: '204', name: 'Počítačová učebňa', roomNumber: '204', floor: '1. poschodie', type: 'classroom', description: 'Výpočtová technika' },
+  { id: '301', name: 'Kreslica 1', roomNumber: '301', floor: '2. poschodie', type: 'classroom', description: 'Učebňa technického kreslenia' },
+  { id: '302', name: 'Kreslica 2', roomNumber: '302', floor: '2. poschodie', type: 'classroom', description: 'Učebňa technického kreslenia' },
+  { id: '303', name: 'Laboratórium B', roomNumber: '303', floor: '2. poschodie', type: 'classroom', description: 'Odborné laboratórium' },
+  { id: '401', name: 'Telocvičňa', roomNumber: '401', floor: '3. poschodie', type: 'facility', description: 'Športové zariadenie' },
+  { id: '402', name: 'Aula', roomNumber: '402', floor: '3. poschodie', type: 'facility', description: 'Spoločenská miestnosť' },
 ];
 
 export default function KioskHome() {
   const [isIdle, setIsIdle] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFloor, setActiveFloor] = useState('Floor 1');
+  const [activeFloor, setActiveFloor] = useState('1. poschodie');
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [showRoute, setShowRoute] = useState(false);
   const [lastActivity, setLastActivity] = useState(Date.now());
 
   const resetKiosk = useCallback(() => {
     setSearchQuery('');
-    setActiveFloor('Floor 1');
+    setActiveFloor('1. poschodie');
     setSelectedLocation(null);
     setShowRoute(false);
     setIsIdle(true);
@@ -120,8 +119,8 @@ export default function KioskHome() {
         <div className="flex items-center gap-4">
           <img src={schoolLogo} alt="School Logo" className="w-16 h-16 object-contain" data-testid="img-header-logo" />
           <div>
-            <h1 className="text-3xl font-bold" data-testid="text-header-title">Campus Directory</h1>
-            <p className="text-lg text-muted-foreground">Find your way around campus</p>
+            <h1 className="text-3xl font-bold" data-testid="text-header-title">SPŠ stavebná a geodetická</h1>
+            <p className="text-lg text-muted-foreground">Navigácia v budove školy</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -153,14 +152,14 @@ export default function KioskHome() {
             <>
               <section>
                 <h2 className="text-3xl font-semibold mb-6" data-testid="text-quick-access-title">
-                  Quick Access
+                  Rýchly prístup
                 </h2>
                 <QuickAccessGrid onSelect={handleQuickAccess} />
               </section>
 
               <section>
                 <h2 className="text-3xl font-semibold mb-6" data-testid="text-browse-title">
-                  Browse by Floor
+                  Prehľad podľa poschodia
                 </h2>
                 <FloorSelector 
                   floors={floors} 
@@ -174,7 +173,7 @@ export default function KioskHome() {
           {searchQuery && (
             <section>
               <h2 className="text-3xl font-semibold mb-6" data-testid="text-search-results-title">
-                Search Results ({filteredLocations.length})
+                Výsledky vyhľadávania ({filteredLocations.length})
               </h2>
               <div className="bg-card border-2 border-border rounded-lg overflow-hidden">
                 {filteredLocations.length > 0 ? (
@@ -187,7 +186,7 @@ export default function KioskHome() {
                   ))
                 ) : (
                   <div className="p-12 text-center text-2xl text-muted-foreground" data-testid="text-no-results">
-                    No locations found
+                    Nenašli sa žiadne výsledky
                   </div>
                 )}
               </div>
@@ -198,7 +197,7 @@ export default function KioskHome() {
             <section>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-semibold" data-testid="text-route-title">
-                  Route to Destination
+                  Trasa k cieľu
                 </h2>
                 <Button
                   variant="outline"
@@ -206,7 +205,7 @@ export default function KioskHome() {
                   className="h-14 px-6 text-xl"
                   data-testid="button-close-route"
                 >
-                  Close Map
+                  Zavrieť mapu
                 </Button>
               </div>
               <FloorMap floor={activeFloor} selectedLocation="202" />
@@ -216,7 +215,7 @@ export default function KioskHome() {
           {!searchQuery && !showRoute && (
             <section>
               <h2 className="text-3xl font-semibold mb-6" data-testid="text-floor-map-title">
-                {activeFloor} Map
+                Mapa - {activeFloor}
               </h2>
               <FloorMap floor={activeFloor} />
             </section>

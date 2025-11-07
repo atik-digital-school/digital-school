@@ -38,7 +38,7 @@ export default function LocationCard({ location, onClick }: LocationCardProps) {
           {location.name}
         </div>
         <div className="text-lg text-muted-foreground" data-testid={`text-location-room-${location.id}`}>
-          Room {location.roomNumber} • {location.floor}
+          Miestnosť {location.roomNumber} • {location.floor}
         </div>
       </div>
       <ChevronRight className="h-6 w-6 text-muted-foreground flex-shrink-0" />

@@ -23,28 +23,28 @@ export default function FloorMap({ floor, selectedLocation }: FloorMapProps) {
           <rect x="50" y="50" width="700" height="500" fill="hsl(var(--muted))" stroke="hsl(var(--border))" strokeWidth="2" />
           
           <rect x="100" y="100" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="175" y="165" textAnchor="middle" className="fill-foreground text-sm">Room 201</text>
+          <text x="175" y="165" textAnchor="middle" className="fill-foreground text-sm">Miestnosť 201</text>
           
           <rect x="280" y="100" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="355" y="165" textAnchor="middle" className="fill-foreground text-sm">Room 202</text>
+          <text x="355" y="165" textAnchor="middle" className="fill-foreground text-sm">Miestnosť 202</text>
           
           <rect x="460" y="100" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="535" y="165" textAnchor="middle" className="fill-foreground text-sm">Room 203</text>
+          <text x="535" y="165" textAnchor="middle" className="fill-foreground text-sm">Miestnosť 203</text>
           
           <rect x="100" y="250" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="175" y="315" textAnchor="middle" className="fill-foreground text-sm">Room 204</text>
+          <text x="175" y="315" textAnchor="middle" className="fill-foreground text-sm">Miestnosť 204</text>
           
           <rect x="280" y="250" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="355" y="315" textAnchor="middle" className="fill-foreground text-sm">Cafeteria</text>
+          <text x="355" y="315" textAnchor="middle" className="fill-foreground text-sm">Učebňa</text>
           
           <rect x="460" y="250" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="535" y="315" textAnchor="middle" className="fill-foreground text-sm">Library</text>
+          <text x="535" y="315" textAnchor="middle" className="fill-foreground text-sm">Laboratórium</text>
           
           <rect x="100" y="400" width="150" height="120" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="2" />
-          <text x="175" y="465" textAnchor="middle" className="fill-foreground text-sm">Main Office</text>
+          <text x="175" y="465" textAnchor="middle" className="fill-foreground text-sm">Riaditeľstvo</text>
           
           <circle cx="400" cy="300" r="15" fill="hsl(var(--destructive))" className="animate-pulse" />
-          <text x="400" y="345" textAnchor="middle" className="fill-foreground font-bold text-sm">You Are Here</text>
+          <text x="400" y="345" textAnchor="middle" className="fill-foreground font-bold text-sm">Ste tu</text>
           
           {selectedLocation && (
             <>
