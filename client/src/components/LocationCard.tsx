@@ -1,14 +1,19 @@
 import { ChevronRight, MapPin, DoorOpen, Building2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export interface Location {
+export type Location = {
   id: string;
   name: string;
   roomNumber: string;
   floor: string;
   type: string;
-  description: string | null;
-}
+  description?: string | null;
+
+  x?: number | null;
+  y?: number | null;
+  width?: number | null;
+  height?: number | null;
+};
 
 interface LocationCardProps {
   location: Location;

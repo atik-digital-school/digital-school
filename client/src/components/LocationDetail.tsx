@@ -2,21 +2,42 @@ import { X, MapPin, Clock, Phone, Navigation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogContent,
+  DialogContent, DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import type { Location } from './LocationCard';
+import { useQuery } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
+
 
 interface LocationDetailProps {
   location: Location | null;
   open: boolean;
   onClose: () => void;
-  onShowRoute: () => void;
+  onShowRoute: (location: Location) => void;
 }
 
 export default function LocationDetail({ location, open, onClose, onShowRoute }: LocationDetailProps) {
   if (!location) return null;
+
+  const { data: currentLesson, isLoading: isLoadingLesson } = useQuery<
+      { subject: string; teacher: string } | null
+  >({
+    queryKey: ['schedule', 'current', location?.roomNumber],
+    enabled: !!location,
+    queryFn: async () => {
+      try {
+        const res = await apiRequest(
+            "GET",
+            `/api/schedule/current?room=${encodeURIComponent(location.roomNumber)}`
+        );
+        return await res.json();
+      } catch (err: any) {
+        return null;
+      }
+    },
+  });
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -25,6 +46,9 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
           <DialogTitle className="text-3xl font-bold pr-8" data-testid="text-location-detail-name">
             {location.name}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Detail miestnosti a navigácia.
+          </DialogDescription>
           <Button
             size="icon"
             variant="ghost"
@@ -82,9 +106,9 @@ export default function LocationDetail({ location, open, onClose, onShowRoute }:
 
         <div className="flex gap-4 pt-4">
           <Button
-            onClick={onShowRoute}
-            className="flex-1 h-16 text-xl gap-3"
-            data-testid="button-show-route"
+              onClick={() => location && onShowRoute(location)}
+              className="flex-1 h-16 text-xl gap-3"
+              data-testid="button-show-route"
           >
             <Navigation className="h-6 w-6" />
             Zobraziť trasu

@@ -1,10 +1,11 @@
 import { drizzle } from "drizzle-orm/neon-serverless";
 import ws from "ws";
 
-// Temporary fallback for development
-const databaseUrl = process.env.DATABASE_URL || "postgresql://localhost:5432/digital-school";
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set. Please set it before starting the server.");
+}
 
 export const db = drizzle({
-  connection: databaseUrl,
-  ws: ws,
+  connection: process.env.DATABASE_URL,
+  ws,
 });
