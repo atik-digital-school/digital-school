@@ -1,0 +1,10 @@
+This project uses PostgreSQL (Neon) and ORM Drizzle.
+Below is a description of how to fully connect to the database, roll out the schema, and populate the `locations` table.
+
+1. In terminal (in project directory) enter the command export DATABASE_URL="postgresql://neondb_owner:npg_cM6tqphVS5bi@ep-holy-term-ahpqd4zd-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+2. Check database added: echo $DATABASE_URL
+3. Check that data loaded from the database: curl http://localhost:3000/api/locations
+Use commands below, if there are not any data in database
+4. After setting DATABASE_URL, you can generate migrations based on the current schema: npx drizzle-kit generate
+5. To create tables locations, rooms, teachers, schedule, etc. in the database, you need to do the following: npm run db:push
+
