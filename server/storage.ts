@@ -8,8 +8,6 @@ import {
 } from "@shared/schema";
 import { db } from "@db";
 import { eq, and, lte, gte } from "drizzle-orm";
-import {undefined} from "zod";
-
 
 export interface IStorage {
   getAllLocations(): Promise<Location[]>;
@@ -30,16 +28,25 @@ export class DbStorage implements IStorage {
   }
 
   async getLocationById(id: string): Promise<Location | undefined> {
-    const result = await db.select().from(locations).where(eq(locations.id, id));
+    const result = await db
+        .select()
+        .from(locations)
+        .where(eq(locations.id, id));
     return result[0];
   }
 
   async getLocationsByFloor(floor: string): Promise<Location[]> {
-    return await db.select().from(locations).where(eq(locations.floor, floor));
+    return await db
+        .select()
+        .from(locations)
+        .where(eq(locations.floor, floor));
   }
 
   async createLocation(insertLocation: InsertLocation): Promise<Location> {
-    const result = await db.insert(locations).values(insertLocation).returning();
+    const result = await db
+        .insert(locations)
+        .values(insertLocation)
+        .returning();
     return result[0];
   }
 
@@ -52,6 +59,8 @@ export class DbStorage implements IStorage {
         .select({
           subject: schedule.subject,
           teacher: teachers.name,
+          // startTime: schedule.startTime,
+          // endTime: schedule.endTime,
         })
         .from(schedule)
         .innerJoin(rooms, eq(schedule.roomId, rooms.id))
@@ -63,7 +72,8 @@ export class DbStorage implements IStorage {
                 lte(schedule.startTime, currentTime),
                 gte(schedule.endTime, currentTime),
             ),
-        );
+        )
+        .limit(1);
 
     if (result.length === 0) return null;
     return result[0];

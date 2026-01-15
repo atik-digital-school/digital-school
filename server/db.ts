@@ -1,11 +1,10 @@
-import { drizzle } from "drizzle-orm/neon-serverless";
-import ws from "ws";
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { Pool } from '@neondatabase/serverless';
+import 'dotenv/config';
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set. Please set it before starting the server.");
+  throw new Error("DATABASE_URL is not set.");
 }
 
-export const db = drizzle({
-  connection: process.env.DATABASE_URL,
-  ws,
-});
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const db = drizzle(pool);
