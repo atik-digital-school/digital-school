@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { Button } from '@/components/ui/button';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, Sparkles, Building2, Map as MapIcon } from 'lucide-react';
 import IdleScreen from '@/components/IdleScreen';
 import SearchBar from '@/components/SearchBar';
 import QuickAccessGrid from '@/components/QuickAccessGrid';
@@ -22,8 +22,8 @@ export default function KioskHome() {
   const [showRoute, setShowRoute] = useState(false);
   const [lastActivity, setLastActivity] = useState(Date.now());
   const [routeLocation, setRouteLocation] = useState<Location | null>(null);
+  const [quickAccessFilter, setQuickAccessFilter] = useState<string | null>(null);
 
-  // Заглушка на случай, если БД пустая/упала
   const mockLocations: Location[] = [
     { id: '5', name: 'Učebňa 5', roomNumber: '5', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
     { id: '6', name: 'Učebňa 6', roomNumber: '6', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
@@ -75,6 +75,7 @@ export default function KioskHome() {
     setSelectedLocation(null);
     setRouteLocation(null);
     setShowRoute(false);
+    setQuickAccessFilter(null);
     setIsIdle(true);
   }, []);
 
@@ -97,6 +98,7 @@ export default function KioskHome() {
   useEffect(() => {
     if (!isIdle) {
       const handleActivity = () => updateActivity();
+
       window.addEventListener('click', handleActivity);
       window.addEventListener('touchstart', handleActivity);
       window.addEventListener('keypress', handleActivity);
@@ -114,22 +116,50 @@ export default function KioskHome() {
     updateActivity();
   };
 
-  const filteredLocations = locations.filter((location) =>
-      location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      location.roomNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      location.type.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredLocations = locations.filter((location) => {
+    const query = searchQuery.toLowerCase().trim();
+
+    if (!query) return true;
+
+    return (
+        location.name.toLowerCase().includes(query) ||
+        location.roomNumber.toLowerCase().includes(query) ||
+        location.type.toLowerCase().includes(query) ||
+        location.floor.toLowerCase().includes(query) ||
+        (location.description ?? '').toLowerCase().includes(query)
+    );
+  });
+
+  const classroomLocations = [...locations]
+      .filter((location) => location.type === 'classroom')
+      .sort((a, b) => Number(a.roomNumber) - Number(b.roomNumber));
 
   const handleQuickAccess = (id: string) => {
+    setSelectedLocation(null);
+    setRouteLocation(null);
+    setShowRoute(false);
+
+    if (id === 'classroom') {
+      setQuickAccessFilter('classroom');
+      setSearchQuery('');
+      setActiveFloor('Prízemie');
+      updateActivity();
+      return;
+    }
+
+    setQuickAccessFilter(null);
+
     const location = locations.find(
         (loc) =>
             loc.name.toLowerCase().includes(id.toLowerCase()) ||
             loc.type.toLowerCase().includes(id.toLowerCase()),
     );
+
     if (location) {
       setSelectedLocation(location);
       setActiveFloor(location.floor);
     }
+
     updateActivity();
   };
 
@@ -151,100 +181,131 @@ export default function KioskHome() {
     return <IdleScreen onActivate={handleActivate} />;
   }
 
-  // Отфильтрованные локации для текущего этажа (для карты)
   const locationsOnActiveFloor = locations.filter((loc) => loc.floor === activeFloor);
+  const showingSearchResults = searchQuery.trim().length > 0;
+  const showingClassroomList =
+      quickAccessFilter === 'classroom' && !showingSearchResults && !showRoute;
 
   return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <header className="bg-card border-b-2 border-border px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img
-                src={schoolLogo}
-                alt="School Logo"
-                className="w-16 h-16 object-contain"
-                data-testid="img-header-logo"
-            />
-            <div>
-              <h1 className="text-3xl font-bold" data-testid="text-header-title">
-                SPŠ stavebná a geodetická
-              </h1>
-              <p className="text-lg text-muted-foreground">Navigácia v budove školy</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <div className="text-2xl font-semibold" data-testid="text-current-time">
-                {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      <div className="relative flex min-h-screen flex-col overflow-hidden bg-slate-50">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.12),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(168,85,247,0.10),_transparent_24%),radial-gradient(circle_at_bottom_left,_rgba(14,165,233,0.08),_transparent_22%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(248,250,252,0.96))]" />
+
+        <header className="sticky top-0 z-20 border-b border-white/50 bg-white/70 px-8 py-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-6">
+            <div className="flex items-center gap-5">
+              <div className="rounded-[1.75rem] border border-white/70 bg-white/90 p-3 shadow-lg">
+                <img
+                    src={schoolLogo}
+                    alt="School Logo"
+                    className="h-16 w-16 object-contain"
+                    data-testid="img-header-logo"
+                />
               </div>
-              <div className="text-lg text-muted-foreground">
-                {new Date().toLocaleDateString([], {
-                  weekday: 'long',
-                  month: 'short',
-                  day: 'numeric',
-                })}
+
+              <div>
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
+                  <Sparkles className="h-4 w-4" />
+                  Interaktívny informačný kiosk
+                </div>
+
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900" data-testid="text-header-title">
+                  SPŠ stavebná a geodetická
+                </h1>
+
+                <p className="text-lg text-slate-500">Navigácia v budove školy</p>
               </div>
             </div>
-            <Button
-                size="icon"
-                variant="outline"
-                onClick={resetKiosk}
-                className="w-16 h-16"
-                data-testid="button-start-over"
-            >
-              <RotateCcw className="h-8 w-8" />
-            </Button>
+
+            <div className="flex items-center gap-4">
+              <div className="rounded-[1.5rem] border border-white/70 bg-white/85 px-5 py-3 text-right shadow-lg">
+                <div className="text-2xl font-semibold leading-none text-slate-900" data-testid="text-current-time">
+                  {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+                <div className="mt-2 text-base text-slate-500">
+                  {new Date().toLocaleDateString([], {
+                    weekday: 'long',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </div>
+              </div>
+
+              <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={resetKiosk}
+                  className="h-16 w-16 rounded-[1.5rem] border-white/70 bg-white/85 shadow-lg hover:bg-white"
+                  data-testid="button-start-over"
+              >
+                <RotateCcw className="h-8 w-8" />
+              </Button>
+            </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto">
-          <div className="max-w-7xl mx-auto p-8 space-y-8">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        <main className="relative z-10 flex-1 overflow-auto">
+          <div className="mx-auto max-w-7xl space-y-8 p-8">
+            <SearchBar
+                value={searchQuery}
+                onChange={(value) => {
+                  setSearchQuery(value);
+                  if (value.trim()) {
+                    setQuickAccessFilter(null);
+                    setShowRoute(false);
+                  }
+                }}
+            />
 
             {isLoadingLocations && (
-                <div className="text-center py-12">
-                  <div className="text-2xl text-muted-foreground">Načítava sa...</div>
+                <div className="rounded-[2rem] border border-white/70 bg-white/80 py-16 text-center shadow-[0_10px_30px_rgba(15,23,42,0.05)] backdrop-blur-xl">
+                  <div className="text-2xl text-slate-500">Načítava sa...</div>
                 </div>
             )}
 
-            {/* Главный экран: быстрый доступ + выбор этажа */}
             {!searchQuery && !showRoute && !isLoadingLocations && (
                 <>
-                  <section>
-                    <h2
-                        className="text-3xl font-semibold mb-6"
-                        data-testid="text-quick-access-title"
-                    >
+                  <section className="rounded-[2rem] border border-white/70 bg-white/75 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                    <h2 className="mb-2 text-3xl font-semibold text-slate-900" data-testid="text-quick-access-title">
                       Rýchly prístup
                     </h2>
+                    <p className="mb-6 text-lg text-slate-500">
+                      Vyberte si najčastejšie hľadané miesta jedným dotykom.
+                    </p>
                     <QuickAccessGrid onSelect={handleQuickAccess} />
                   </section>
 
-                  <section>
-                    <h2
-                        className="text-3xl font-semibold mb-6"
-                        data-testid="text-browse-title"
-                    >
-                      Prehľad podľa poschodia
-                    </h2>
-                    <FloorSelector
-                        floors={floors}
-                        activeFloor={activeFloor}
-                        onFloorChange={setActiveFloor}
-                    />
-                  </section>
+                  {!showingClassroomList && (
+                      <section className="rounded-[2rem] border border-white/70 bg-white/75 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                        <h2 className="mb-2 text-3xl font-semibold text-slate-900" data-testid="text-browse-title">
+                          Prehľad podľa poschodia
+                        </h2>
+                        <p className="mb-6 text-lg text-slate-500">
+                          Zobrazte mapu konkrétneho podlažia a kliknite na miestnosť.
+                        </p>
+                        <FloorSelector
+                            floors={floors}
+                            activeFloor={activeFloor}
+                            onFloorChange={(floor) => {
+                              setQuickAccessFilter(null);
+                              setActiveFloor(floor);
+                            }}
+                        />
+                      </section>
+                  )}
                 </>
             )}
 
-            {/* Результаты поиска */}
-            {searchQuery && (
-                <section>
-                  <h2
-                      className="text-3xl font-semibold mb-6"
-                      data-testid="text-search-results-title"
-                  >
+            {showingSearchResults && (
+                <section className="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                  <h2 className="mb-2 text-3xl font-semibold text-slate-900" data-testid="text-search-results-title">
                     Výsledky vyhľadávania ({filteredLocations.length})
                   </h2>
-                  <div className="bg-card border-2 border-border rounded-lg overflow-hidden">
+                  <p className="mb-6 text-lg text-slate-500">
+                    Vyberte miestnosť zo zoznamu pre zobrazenie detailu.
+                  </p>
+
+                  <div className="space-y-3">
                     {filteredLocations.length > 0 ? (
                         filteredLocations.map((location) => (
                             <LocationCard
@@ -255,7 +316,7 @@ export default function KioskHome() {
                         ))
                     ) : (
                         <div
-                            className="p-12 text-center text-2xl text-muted-foreground"
+                            className="rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50/80 p-12 text-center text-2xl text-slate-500"
                             data-testid="text-no-results"
                         >
                           Nenašli sa žiadne výsledky
@@ -265,20 +326,57 @@ export default function KioskHome() {
                 </section>
             )}
 
-            {/* Режим маршрута */}
+            {showingClassroomList && (
+                <section className="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                  <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <h2 className="text-3xl font-semibold text-slate-900" data-testid="text-classroom-list-title">
+                        Zoznam všetkých učební
+                      </h2>
+                      <p className="mt-2 text-lg text-slate-500">
+                        Po kliknutí na učebňu sa zobrazí detail a môžete spustiť navigáciu.
+                      </p>
+                    </div>
+
+                    <Button
+                        variant="outline"
+                        className="h-12 rounded-2xl border-slate-200 bg-white px-5 text-base shadow-sm"
+                        onClick={() => setQuickAccessFilter(null)}
+                        data-testid="button-close-classroom-list"
+                    >
+                      Zobraziť poschodia
+                    </Button>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {classroomLocations.map((location) => (
+                        <LocationCard
+                            key={location.id}
+                            location={location}
+                            onClick={() => handleLocationClick(location)}
+                        />
+                    ))}
+                  </div>
+                </section>
+            )}
+
             {showRoute && routeLocation && (
-                <section>
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-3xl font-semibold" data-testid="text-route-title">
-                      Trasa k cieľu
-                    </h2>
+                <section className="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                  <div className="mb-6 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <MapIcon className="h-7 w-7 text-blue-600" />
+                      <h2 className="text-3xl font-semibold text-slate-900" data-testid="text-route-title">
+                        Trasa k cieľu
+                      </h2>
+                    </div>
+
                     <Button
                         variant="outline"
                         onClick={() => {
                           setShowRoute(false);
                           setRouteLocation(null);
                         }}
-                        className="h-14 px-6 text-xl"
+                        className="h-14 rounded-2xl border-slate-200 bg-white px-6 text-xl shadow-sm"
                         data-testid="button-close-route"
                     >
                       Zavrieť mapu
@@ -299,14 +397,15 @@ export default function KioskHome() {
                 </section>
             )}
 
-            {!searchQuery && !showRoute && !isLoadingLocations && (
-                <section>
-                  <h2
-                      className="text-3xl font-semibold mb-6"
-                      data-testid="text-floor-map-title"
-                  >
-                    Mapa - {activeFloor}
-                  </h2>
+            {!searchQuery && !showRoute && !isLoadingLocations && !showingClassroomList && (
+                <section className="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-[0_14px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                  <div className="mb-6 flex items-center gap-3">
+                    <Building2 className="h-7 w-7 text-blue-600" />
+                    <h2 className="text-3xl font-semibold text-slate-900" data-testid="text-floor-map-title">
+                      Mapa - {activeFloor}
+                    </h2>
+                  </div>
+
                   <FloorMap
                       floor={activeFloor}
                       locations={locationsOnActiveFloor}
