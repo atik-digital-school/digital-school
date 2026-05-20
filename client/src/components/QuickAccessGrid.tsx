@@ -25,18 +25,18 @@ const quickAccessItems: QuickAccessItem[] = [
     description: 'Zobrazí sa zoznam všetkých učební',
     icon: <GraduationCap className="h-10 w-10" />,
   },
-  {
-    id: 'restrooms',
-    label: 'WC',
-    description: 'Rýchly prístup k sociálnym zariadeniam',
-    icon: <DoorOpen className="h-10 w-10" />,
-  },
-  {
-    id: 'emergency',
-    label: 'Núdzový východ',
-    description: 'Dôležité orientačné body v budove',
-    icon: <MapPin className="h-10 w-10" />,
-  },
+  // {
+  //   id: 'restrooms',
+  //   label: 'WC',
+  //   description: 'Rýchly prístup k sociálnym zariadeniam',
+  //   icon: <DoorOpen className="h-10 w-10" />,
+  // },
+  // {
+  //   id: 'emergency',
+  //   label: 'Núdzový východ',
+  //   description: 'Dôležité orientačné body v budove',
+  //   icon: <MapPin className="h-10 w-10" />,
+  // },
 ];
 
 export default function QuickAccessGrid({ onSelect }: QuickAccessGridProps) {
