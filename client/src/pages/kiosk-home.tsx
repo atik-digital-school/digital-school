@@ -10,7 +10,7 @@ import FloorSelector from '@/components/FloorSelector';
 import LocationCard, { type Location } from '@/components/LocationCard';
 import FloorMap from '@/components/FloorMap';
 import LocationDetail from '@/components/LocationDetail';
-import schoolLogo from '@assets/generated_images/School_logo_icon_4eb4a5ce.png';
+import schoolLogo from '@assets/generated_images/school-logo.png';
 
 const IDLE_TIMEOUT = 60000;
 
