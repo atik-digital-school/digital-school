@@ -14,6 +14,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/schedule/current", async (req, res) => {
+    try {
+      const roomNumber = req.query.room as string | undefined;
+      if (!roomNumber) {
+        return res.status(400).json({ error: "Missing 'room' query parameter" });
+      }
+
+      // необязательные параметры для теста
+      const overrideDay = req.query.day as string | undefined;
+      const overrideTime = req.query.time as string | undefined;
+
+      let dayOfWeek: number;
+      let currentTime: string;
+
+      if (overrideDay) {
+        const parsed = Number(overrideDay);
+        if (!Number.isFinite(parsed) || parsed < 1 || parsed > 7) {
+          return res.status(400).json({ error: "Invalid 'day' parameter, expected 1-7" });
+        }
+        dayOfWeek = parsed;
+      } else {
+        const now = new Date();
+        const jsDay = now.getDay(); // 0–6
+        dayOfWeek = jsDay === 0 ? 7 : jsDay;
+      }
+
+      if (overrideTime) {
+        if (!/^\d{2}:\d{2}$/.test(overrideTime)) {
+          return res.status(400).json({ error: "Invalid 'time' parameter, expected HH:MM" });
+        }
+        currentTime = overrideTime;
+      } else {
+        const now = new Date();
+        currentTime = now.toTimeString().slice(0, 5);
+      }
+
+      const lesson = await storage.getCurrentLesson(roomNumber, dayOfWeek, currentTime);
+
+      if (!lesson) {
+        return res.status(404).json({ message: "No lesson for this room and time" });
+      }
+
+      res.json(lesson);
+    } catch (error) {
+      console.error("Error fetching current lesson:", error);
+      res.status(500).json({ error: "Failed to fetch current lesson" });
+    }
+  });
+
+
   app.get("/api/locations/:id", async (req, res) => {
     try {
       const location = await storage.getLocationById(req.params.id);

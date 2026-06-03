@@ -1,10 +1,10 @@
-import { drizzle } from "drizzle-orm/neon-serverless";
-import ws from "ws";
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { Pool } from '@neondatabase/serverless';
+import 'dotenv/config';
 
-// Temporary fallback for development
-const databaseUrl = process.env.DATABASE_URL || "postgresql://localhost:5432/digital-school";
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set.");
+}
 
-export const db = drizzle({
-  connection: databaseUrl,
-  ws: ws,
-});
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const db = drizzle(pool);
