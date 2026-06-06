@@ -58,7 +58,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r23,
       clickable: true,
       color: 'blue',
-      style: { left: '78.9%', top: '13%', width: '18.4%', height: '24.2%' },
+      style: { left: '78.9%', top: '13%', width: '18.4%', height: '37.2%' },
     },
     {
       id: 'chodba',
