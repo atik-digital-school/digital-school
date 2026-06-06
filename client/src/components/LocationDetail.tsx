@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Clock, Navigation, QrCode, X } from 'lucide-react';
+import { MapPin, Clock, Navigation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -95,24 +95,12 @@ export default function LocationDetail({
                                          onClose,
                                          onShowRoute,
                                        }: LocationDetailProps) {
-  const [showQR, setShowQR] = useState(false);
   const [navigateUrl, setNavigateUrl] = useState('');
-
-  const handleShowQR = async () => {
-    if (!location) return;
-
-    if (!navigateUrl) {
-      const url = await getLocalNetworkUrl(location);
-      setNavigateUrl(url);
-    }
-
-    setShowQR(true);
-  };
 
   useEffect(() => {
     if (!location) return;
-    setShowQR(false);
     setNavigateUrl('');
+    getLocalNetworkUrl(location).then(setNavigateUrl);
   }, [location]);
 
   const { data: currentLesson, isLoading: isLoadingLesson } = useQuery({
@@ -213,7 +201,7 @@ export default function LocationDetail({
               )}
 
               {/* QR Code panel */}
-              {showQR && navigateUrl && (
+              {navigateUrl && (
                   <div className="rounded-[1.75rem] border-2 border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
                     <div className="flex items-start justify-between mb-4">
                       <div>
@@ -221,12 +209,7 @@ export default function LocationDetail({
                           📱 QR kód – navigácia na telefóne
                         </div>
                       </div>
-                      <button
-                          onClick={() => setShowQR(false)}
-                          className="rounded-xl p-2 hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition"
-                      >
-                        <X className="h-5 w-5" />
-                      </button>
+                      <div />
                     </div>
 
                     <div className="flex gap-8 items-start flex-wrap">
@@ -263,15 +246,6 @@ export default function LocationDetail({
                   Zobraziť trasu
                 </Button>
 
-                <Button
-                    onClick={handleShowQR}
-                    variant="outline"
-                    className="h-16 gap-3 rounded-[1.5rem] border-2 border-slate-200 px-6 text-lg font-semibold hover:border-blue-200 hover:bg-blue-50 transition"
-                    data-testid="button-show-qr"
-                >
-                  <QrCode className="h-6 w-6" />
-                  QR kód
-                </Button>
               </div>
             </div>
           </div>
