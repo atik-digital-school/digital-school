@@ -77,7 +77,7 @@ function buildZones(floor: string): Zone[] {
     },
     {
       id: r20,
-      label: `Učebňa ${r20}`,
+      label: 'Kabinet',
       roomNumber: r20,
       clickable: true,
       color: 'blue',
