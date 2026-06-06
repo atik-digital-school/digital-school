@@ -28,21 +28,21 @@ function buildZones(floor: string): Zone[] {
       label: 'Vchod',
       clickable: false,
       color: 'slate',
-      style: { left: '0%', top: '3%', width: '9%', height: '94%' },
+      style: { left: '0%', top: '28%', width: '17%', height: '67%' },
     },
     {
       id: 'wc',
       label: 'WC',
       clickable: false,
       color: 'slate',
-      style: { left: '9%', top: '3%', width: '10%', height: '37%' },
+      style: { left: '16.6%', top: '13%', width: '7%', height: '24.2%' },
     },
     {
       id: 'schodisko',
       label: 'Schodisko',
       clickable: false,
       color: 'slate',
-      style: { left: '35%', top: '3%', width: '14%', height: '28%' },
+      style: { left: '23.6%', top: '13%', width: '35.2%', height: '24.2%' },
     },
     {
       id: r22,
@@ -50,7 +50,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r22,
       clickable: true,
       color: 'blue',
-      style: { left: '55%', top: '3%', width: '25%', height: '39%' },
+      style: { left: '58.8%', top: '13%', width: '18.4%', height: '24.2%' },
     },
     {
       id: r23,
@@ -58,14 +58,14 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r23,
       clickable: true,
       color: 'blue',
-      style: { left: '80%', top: '3%', width: '19%', height: '39%' },
+      style: { left: '77.2%', top: '13%', width: '20.1%', height: '24.2%' },
     },
     {
       id: 'chodba',
       label: 'Chodba',
       clickable: false,
       color: 'slate',
-      style: { left: '9%', top: '43%', width: '90%', height: '14%' },
+      style: { left: '16.6%', top: '37.2%', width: '80.7%', height: '7.5%' },
     },
     {
       id: r19,
@@ -73,7 +73,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r19,
       clickable: true,
       color: 'blue',
-      style: { left: '9%', top: '57%', width: '37%', height: '36%' },
+      style: { left: '16.6%', top: '44.7%', width: '31.2%', height: '50.5%' },
     },
     {
       id: r20,
@@ -81,7 +81,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r20,
       clickable: true,
       color: 'blue',
-      style: { left: '46%', top: '57%', width: '12%', height: '36%' },
+      style: { left: '47.8%', top: '44.7%', width: '10.6%', height: '50.5%' },
     },
     {
       id: r21,
@@ -89,7 +89,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r21,
       clickable: true,
       color: 'blue',
-      style: { left: '58%', top: '57%', width: '41%', height: '36%' },
+      style: { left: '58.4%', top: '44.7%', width: '38.9%', height: '50.5%' },
     },
   ];
 }
