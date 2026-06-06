@@ -2,9 +2,11 @@ import { useMemo, useState } from 'react';
 import { ZoomIn, ZoomOut, Navigation, LocateFixed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Location } from '@/components/LocationCard';
+import { usePdfImage } from '@/hooks/usePdfImage';
 
 interface FloorMapProps {
     floor: string;
+    floorPlanUrl?: string | null;
     locations?: Location[];
     selectedLocation?: string | null;
     onSelect?: (roomNumber: string) => void;
@@ -65,11 +67,13 @@ const TYPE_LABEL: Record<string, string> = {
 
 export default function FloorMap({
                                      floor,
+                                     floorPlanUrl = null,
                                      locations = [],
                                      selectedLocation,
                                      onSelect = () => {},
                                  }: FloorMapProps) {
     const [zoom, setZoom] = useState(1);
+    const floorPlanImage = usePdfImage(floorPlanUrl);
     const [panX, setPanX] = useState(0);
     const [panY, setPanY] = useState(0);
 
@@ -190,9 +194,22 @@ export default function FloorMap({
                         </radialGradient>
                     </defs>
 
+                    {/* Floor plan background image */}
+                    {floorPlanImage && (
+                        <image
+                            href={floorPlanImage}
+                            x={20} y={20}
+                            width={SVG_W - 40}
+                            height={SVG_H - 40}
+                            preserveAspectRatio="xMidYMid meet"
+                            opacity={0.4}
+                        />
+                    )}
+
                     {/* Building outline */}
                     <rect x={20} y={20} width={SVG_W - 40} height={SVG_H - 40} rx={36}
-                          fill="rgba(255,255,255,0.60)" stroke="rgba(148,163,184,0.25)" strokeWidth={2}
+                          fill={floorPlanImage ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.60)'}
+                          stroke="rgba(148,163,184,0.25)" strokeWidth={2}
                     />
 
                     {/* Corridor strip */}

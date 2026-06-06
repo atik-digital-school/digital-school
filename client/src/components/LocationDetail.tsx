@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Clock, Phone, Navigation, QrCode, X } from 'lucide-react';
+import { MapPin, Clock, Navigation, QrCode, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -137,12 +137,12 @@ export default function LocationDetail({
   return (
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent
-            className="max-w-4xl rounded-[2rem] border border-white/40 bg-white/95 p-0 shadow-2xl backdrop-blur-xl"
+            className="flex max-h-[90vh] max-w-4xl flex-col rounded-[2rem] border border-white/40 bg-white/95 p-0 shadow-2xl backdrop-blur-xl"
             data-testid="modal-location-detail"
         >
-          <div className="overflow-hidden rounded-[2rem]">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[2rem]">
             {/* Header */}
-            <div className="border-b border-slate-200/80 bg-gradient-to-r from-blue-50 via-white to-slate-50 px-8 py-7">
+            <div className="flex-shrink-0 border-b border-slate-200/80 bg-gradient-to-r from-blue-50 via-white to-slate-50 px-8 py-7">
               <DialogHeader className="space-y-3 text-left">
                 <div className="inline-flex w-fit items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
                   Miestnosť {location.roomNumber}
@@ -159,7 +159,7 @@ export default function LocationDetail({
               </DialogHeader>
             </div>
 
-            <div className="space-y-6 px-8 py-8">
+            <div className="min-h-0 flex-1 space-y-6 overflow-y-auto px-8 py-8">
               {/* Current lesson */}
               <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-start gap-4">
@@ -187,7 +187,7 @@ export default function LocationDetail({
               </div>
 
               {/* Location + contact */}
-              <div className="grid gap-5 md:grid-cols-2">
+              <div>
                 <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
                   <div className="flex items-start gap-4">
                     <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
@@ -202,19 +202,6 @@ export default function LocationDetail({
                   </div>
                 </div>
 
-                <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
-                      <Phone className="h-7 w-7" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-semibold text-slate-900">Kontakt</div>
-                      <div className="mt-2 text-xl leading-relaxed text-slate-600">
-                        Linka {location.roomNumber}
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               {/* Description */}
@@ -232,9 +219,6 @@ export default function LocationDetail({
                       <div>
                         <div className="text-xl font-bold text-slate-900 mb-1">
                           📱 QR kód – navigácia na telefóne
-                        </div>
-                        <div className="text-sm text-slate-500 max-w-xs leading-relaxed">
-                          Naskenujte kód telefónom. Telefón musí byť pripojený na rovnakú WiFi sieť ako tento kiosk.
                         </div>
                       </div>
                       <button
@@ -260,9 +244,8 @@ export default function LocationDetail({
                         <div className="rounded-xl bg-slate-900 text-green-400 text-xs font-mono p-3 break-all leading-relaxed mb-4 select-all">
                           {navigateUrl}
                         </div>
-                        <div className="text-sm text-slate-500 space-y-1 leading-relaxed">
-                          <div>💡 <strong>Tip:</strong> Ak kód nefunguje, skontrolujte že ste na rovnakej WiFi sieti.</div>
-                          <div>🔧 IP adresa sa detekuje automaticky cez WebRTC.</div>
+                        <div className="text-sm text-slate-500 leading-relaxed">
+                          Naskenujte QR kód telefónom a zobrazí sa vám návod, ako sa dostať do tejto miestnosti.
                         </div>
                       </div>
                     </div>

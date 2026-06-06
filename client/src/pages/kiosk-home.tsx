@@ -9,10 +9,15 @@ import QuickAccessGrid from '@/components/QuickAccessGrid';
 import FloorSelector from '@/components/FloorSelector';
 import LocationCard, { type Location } from '@/components/LocationCard';
 import FloorMap from '@/components/FloorMap';
+import FloorPlanMap from '@/components/FloorPlanMap';
 import LocationDetail from '@/components/LocationDetail';
 import schoolLogo from '@assets/generated_images/school-logo.png';
 
 const IDLE_TIMEOUT = 60000;
+
+const FLOOR_PLANS: Record<string, string> = {
+  '2. poschodie': '/floor 2.pdf',
+};
 
 export default function KioskHome() {
   const [isIdle, setIsIdle] = useState(true);
@@ -31,19 +36,16 @@ export default function KioskHome() {
     { id: '8', name: 'Učebňa 8', roomNumber: '8', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
     { id: '9', name: 'Učebňa 9', roomNumber: '9', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
     { id: '10', name: 'Učebňa 10', roomNumber: '10', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
-    { id: '11', name: 'Učebňa 11', roomNumber: '11', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '12', name: 'Učebňa 12', roomNumber: '12', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '13', name: 'Učebňa 13', roomNumber: '13', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '14', name: 'Učebňa 14', roomNumber: '14', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '15', name: 'Učebňa 15', roomNumber: '15', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '16', name: 'Učebňa 16', roomNumber: '16', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '17', name: 'Učebňa 17', roomNumber: '17', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '18', name: 'Učebňa 18', roomNumber: '18', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+    { id: '16', name: 'Učebňa 16', roomNumber: '16', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+    { id: '17', name: 'Učebňa 17', roomNumber: '17', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
+    { id: '18', name: 'Učebňa 18', roomNumber: '18', floor: '1. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '19', name: 'Učebňa 19', roomNumber: '19', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '20', name: 'Učebňa 20', roomNumber: '20', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '21', name: 'Učebňa 21', roomNumber: '21', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '22', name: 'Učebňa 22', roomNumber: '22', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '23', name: 'Učebňa 23', roomNumber: '23', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
+    { id: '22', name: 'Učebňa 22', roomNumber: '22', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
+    { id: '23', name: 'Učebňa 23', roomNumber: '23', floor: '2. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '24', name: 'Učebňa 24', roomNumber: '24', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '25', name: 'Učebňa 25', roomNumber: '25', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '26', name: 'Učebňa 26', roomNumber: '26', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
@@ -383,17 +385,28 @@ export default function KioskHome() {
                     </Button>
                   </div>
 
-                  <FloorMap
+                  {(routeLocation.floor === '2. poschodie' || routeLocation.floor === '1. poschodie') ? (
+                    <FloorPlanMap
                       floor={routeLocation.floor}
                       locations={locations.filter((loc) => loc.floor === routeLocation.floor)}
                       selectedLocation={routeLocation.roomNumber}
                       onSelect={(roomNumber) => {
                         const loc = locations.find((l) => l.roomNumber === roomNumber);
-                        if (loc) {
-                          setSelectedLocation(loc);
-                        }
+                        if (loc) setSelectedLocation(loc);
                       }}
-                  />
+                    />
+                  ) : (
+                    <FloorMap
+                      floor={routeLocation.floor}
+                      floorPlanUrl={FLOOR_PLANS[routeLocation.floor] ?? null}
+                      locations={locations.filter((loc) => loc.floor === routeLocation.floor)}
+                      selectedLocation={routeLocation.roomNumber}
+                      onSelect={(roomNumber) => {
+                        const loc = locations.find((l) => l.roomNumber === roomNumber);
+                        if (loc) setSelectedLocation(loc);
+                      }}
+                    />
+                  )}
                 </section>
             )}
 
@@ -406,17 +419,28 @@ export default function KioskHome() {
                     </h2>
                   </div>
 
-                  <FloorMap
+                  {(activeFloor === '2. poschodie' || activeFloor === '1. poschodie') ? (
+                    <FloorPlanMap
                       floor={activeFloor}
                       locations={locationsOnActiveFloor}
                       selectedLocation={selectedLocation?.roomNumber ?? null}
                       onSelect={(roomNumber) => {
                         const loc = locations.find((l) => l.roomNumber === roomNumber);
-                        if (loc) {
-                          setSelectedLocation(loc);
-                        }
+                        if (loc) setSelectedLocation(loc);
                       }}
-                  />
+                    />
+                  ) : (
+                    <FloorMap
+                      floor={activeFloor}
+                      floorPlanUrl={FLOOR_PLANS[activeFloor] ?? null}
+                      locations={locationsOnActiveFloor}
+                      selectedLocation={selectedLocation?.roomNumber ?? null}
+                      onSelect={(roomNumber) => {
+                        const loc = locations.find((l) => l.roomNumber === roomNumber);
+                        if (loc) setSelectedLocation(loc);
+                      }}
+                    />
+                  )}
                 </section>
             )}
           </div>
