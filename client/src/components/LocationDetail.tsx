@@ -212,24 +212,12 @@ export default function LocationDetail({
                       <div />
                     </div>
 
-                    <div className="flex gap-8 items-start flex-wrap">
-                      {/* QR Code */}
+                    <div className="flex flex-col items-center gap-4">
                       <div className="rounded-2xl bg-white p-4 shadow-md border border-slate-100 inline-flex flex-col items-center gap-3">
-                        <QRCodeCanvas value={navigateUrl} size={180} />
-                        <div className="text-xs text-slate-400 font-medium text-center">
-                          {location.name} · {location.floor}
-                        </div>
+                        <QRCodeCanvas value={navigateUrl} size={200} />
                       </div>
-
-                      {/* URL info */}
-                      <div className="flex-1 min-w-[200px]">
-                        <div className="text-sm font-semibold text-slate-700 mb-2">URL navigácie:</div>
-                        <div className="rounded-xl bg-slate-900 text-green-400 text-xs font-mono p-3 break-all leading-relaxed mb-4 select-all">
-                          {navigateUrl}
-                        </div>
-                        <div className="text-sm text-slate-500 leading-relaxed">
-                          Naskenujte QR kód telefónom a zobrazí sa vám návod, ako sa dostať do tejto miestnosti.
-                        </div>
+                      <div className="text-base text-slate-500 text-center leading-relaxed">
+                        Naskenujte QR kód telefónom a zobrazí sa vám návod, ako sa dostať do tejto miestnosti.
                       </div>
                     </div>
                   </div>
