@@ -31,7 +31,6 @@ export default function KioskHome() {
 
   const mockLocations: Location[] = [
     { id: '5', name: 'Učebňa 5', roomNumber: '5', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
-    { id: '6', name: 'Učebňa 6', roomNumber: '6', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
     { id: '7', name: 'Učebňa 7', roomNumber: '7', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
     { id: '8', name: 'Učebňa 8', roomNumber: '8', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
     { id: '9', name: 'Učebňa 9', roomNumber: '9', floor: 'Prízemie', type: 'classroom', description: 'Trieda' },
@@ -383,7 +382,7 @@ export default function KioskHome() {
                     </Button>
                   </div>
 
-                  {(routeLocation.floor === '1. poschodie' || routeLocation.floor === '2. poschodie' || routeLocation.floor === '3. poschodie') ? (
+                  {(routeLocation.floor === 'Prízemie' || routeLocation.floor === '1. poschodie' || routeLocation.floor === '2. poschodie' || routeLocation.floor === '3. poschodie') ? (
                     <FloorPlanMap
                       floor={routeLocation.floor}
                       locations={locations.filter((loc) => loc.floor === routeLocation.floor)}
@@ -417,7 +416,7 @@ export default function KioskHome() {
                     </h2>
                   </div>
 
-                  {(activeFloor === '1. poschodie' || activeFloor === '2. poschodie' || activeFloor === '3. poschodie') ? (
+                  {(activeFloor === 'Prízemie' || activeFloor === '1. poschodie' || activeFloor === '2. poschodie' || activeFloor === '3. poschodie') ? (
                     <FloorPlanMap
                       floor={activeFloor}
                       locations={locationsOnActiveFloor}

@@ -10,17 +10,18 @@ interface Zone {
   style: { left: string; top: string; width: string; height: string };
 }
 
-// Base zones use 2nd-floor room numbers (19-23).
-// For 1st floor, each number is shifted by FLOOR_OFFSET.
-const FLOOR_OFFSET: Record<string, number> = {
-  '1. poschodie': -5,
-  '2. poschodie': 0,
-  '3. poschodie': 5,
+// Room numbers per floor in zone order: [pos19, pos20, pos21, pos22, pos23]
+// pos19 = bottom-left large, pos20 = bottom-middle small, pos21 = bottom-right large
+// pos22 = top-right large,   pos23 = top-right small
+const FLOOR_ROOMS: Record<string, [string, string, string, string, string]> = {
+  'Prízemie':     ['5',  '7',  '8',  '9',  '10'],
+  '1. poschodie': ['14', '15', '16', '17', '18'],
+  '2. poschodie': ['19', '20', '21', '22', '23'],
+  '3. poschodie': ['24', '25', '26', '27', '28'],
 };
 
 function buildZones(floor: string): Zone[] {
-  const offset = FLOOR_OFFSET[floor] ?? 0;
-  const r = (n: number) => String(n + offset);
+  const [r19, r20, r21, r22, r23] = FLOOR_ROOMS[floor] ?? ['19', '20', '21', '22', '23'];
   return [
     {
       id: 'wc',
@@ -37,17 +38,17 @@ function buildZones(floor: string): Zone[] {
       style: { left: '35%', top: '3%', width: '14%', height: '28%' },
     },
     {
-      id: r(22),
-      label: `Učebňa ${r(22)}`,
-      roomNumber: r(22),
+      id: r22,
+      label: `Učebňa ${r22}`,
+      roomNumber: r22,
       clickable: true,
       color: 'blue',
       style: { left: '55%', top: '3%', width: '25%', height: '39%' },
     },
     {
-      id: r(23),
-      label: `Učebňa ${r(23)}`,
-      roomNumber: r(23),
+      id: r23,
+      label: `Učebňa ${r23}`,
+      roomNumber: r23,
       clickable: true,
       color: 'blue',
       style: { left: '80%', top: '3%', width: '19%', height: '39%' },
@@ -60,25 +61,25 @@ function buildZones(floor: string): Zone[] {
       style: { left: '9%', top: '43%', width: '90%', height: '14%' },
     },
     {
-      id: r(19),
-      label: `Učebňa ${r(19)}`,
-      roomNumber: r(19),
+      id: r19,
+      label: `Učebňa ${r19}`,
+      roomNumber: r19,
       clickable: true,
       color: 'blue',
       style: { left: '9%', top: '57%', width: '37%', height: '36%' },
     },
     {
-      id: r(20),
-      label: `Učebňa ${r(20)}`,
-      roomNumber: r(20),
+      id: r20,
+      label: `Učebňa ${r20}`,
+      roomNumber: r20,
       clickable: true,
       color: 'blue',
       style: { left: '46%', top: '57%', width: '12%', height: '36%' },
     },
     {
-      id: r(21),
-      label: `Učebňa ${r(21)}`,
-      roomNumber: r(21),
+      id: r21,
+      label: `Učebňa ${r21}`,
+      roomNumber: r21,
       clickable: true,
       color: 'blue',
       style: { left: '58%', top: '57%', width: '41%', height: '36%' },
