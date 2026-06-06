@@ -58,7 +58,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r23,
       clickable: true,
       color: 'blue',
-      style: { left: '77.2%', top: '13%', width: '20.1%', height: '24.2%' },
+      style: { left: '78.9%', top: '13%', width: '18.4%', height: '24.2%' },
     },
     {
       id: 'chodba',
@@ -73,7 +73,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r19,
       clickable: true,
       color: 'blue',
-      style: { left: '16.6%', top: '44.7%', width: '31.2%', height: '50.5%' },
+      style: { left: '16.6%', top: '48.8%', width: '31.2%', height: '46.4%' },
     },
     {
       id: r20,
@@ -81,7 +81,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r20,
       clickable: true,
       color: 'blue',
-      style: { left: '47.8%', top: '44.7%', width: '10.6%', height: '50.5%' },
+      style: { left: '47.8%', top: '48.8%', width: '10.6%', height: '46.4%' },
     },
     {
       id: r21,
@@ -89,7 +89,7 @@ function buildZones(floor: string): Zone[] {
       roomNumber: r21,
       clickable: true,
       color: 'blue',
-      style: { left: '58.4%', top: '44.7%', width: '38.9%', height: '50.5%' },
+      style: { left: '58.4%', top: '48.8%', width: '38.9%', height: '46.4%' },
     },
   ];
 }
