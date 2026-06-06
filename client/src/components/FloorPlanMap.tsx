@@ -24,6 +24,13 @@ function buildZones(floor: string): Zone[] {
   const [r19, r20, r21, r22, r23] = FLOOR_ROOMS[floor] ?? ['19', '20', '21', '22', '23'];
   return [
     {
+      id: 'vchod',
+      label: 'Vchod',
+      clickable: false,
+      color: 'slate',
+      style: { left: '0%', top: '3%', width: '9%', height: '94%' },
+    },
+    {
       id: 'wc',
       label: 'WC',
       clickable: false,
