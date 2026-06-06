@@ -202,23 +202,15 @@ export default function LocationDetail({
 
               {/* QR Code panel */}
               {navigateUrl && (
-                  <div className="rounded-[1.75rem] border-2 border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <div className="text-xl font-bold text-slate-900 mb-1">
-                          📱 QR kód – navigácia na telefóne
-                        </div>
-                      </div>
-                      <div />
+                  <div className="rounded-[1.75rem] border-2 border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm flex flex-col items-center gap-4">
+                    <div className="text-xl font-bold text-slate-900 text-center">
+                      📱 QR kód – navigácia na telefóne
                     </div>
-
-                    <div className="flex flex-col items-center gap-4">
-                      <div className="rounded-2xl bg-white p-4 shadow-md border border-slate-100 inline-flex flex-col items-center gap-3">
-                        <QRCodeCanvas value={navigateUrl} size={200} />
-                      </div>
-                      <div className="text-base text-slate-500 text-center leading-relaxed">
-                        Naskenujte QR kód telefónom a zobrazí sa vám návod, ako sa dostať do tejto miestnosti.
-                      </div>
+                    <div className="rounded-2xl bg-white p-4 shadow-md border border-slate-100 inline-flex flex-col items-center">
+                      <QRCodeCanvas value={navigateUrl} size={260} />
+                    </div>
+                    <div className="text-base text-slate-500 text-center leading-relaxed">
+                      Naskenujte QR kód telefónom a zobrazí sa vám návod, ako sa dostať do tejto miestnosti.
                     </div>
                   </div>
               )}
