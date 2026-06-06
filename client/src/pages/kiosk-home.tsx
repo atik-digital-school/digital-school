@@ -51,8 +51,6 @@ export default function KioskHome() {
     { id: '26', name: 'Učebňa 26', roomNumber: '26', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '27', name: 'Učebňa 27', roomNumber: '27', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '28', name: 'Učebňa 28', roomNumber: '28', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '29', name: 'Učebňa 29', roomNumber: '29', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
-    { id: '30', name: 'Učebňa 30', roomNumber: '30', floor: '3. poschodie', type: 'classroom', description: 'Trieda' },
     { id: '401', name: 'Riaditeľstvo', roomNumber: '401', floor: '4. poschodie', type: 'office', description: 'Školská administratíva a vedenie školy' },
     { id: '402', name: 'Sekretariát', roomNumber: '402', floor: '4. poschodie', type: 'office', description: 'Administratívne služby' },
     { id: '403', name: 'Zborovňa', roomNumber: '403', floor: '4. poschodie', type: 'office', description: 'Miestnosť pre učiteľov' },
@@ -385,7 +383,7 @@ export default function KioskHome() {
                     </Button>
                   </div>
 
-                  {(routeLocation.floor === '2. poschodie' || routeLocation.floor === '1. poschodie') ? (
+                  {(routeLocation.floor === '1. poschodie' || routeLocation.floor === '2. poschodie' || routeLocation.floor === '3. poschodie') ? (
                     <FloorPlanMap
                       floor={routeLocation.floor}
                       locations={locations.filter((loc) => loc.floor === routeLocation.floor)}
@@ -419,7 +417,7 @@ export default function KioskHome() {
                     </h2>
                   </div>
 
-                  {(activeFloor === '2. poschodie' || activeFloor === '1. poschodie') ? (
+                  {(activeFloor === '1. poschodie' || activeFloor === '2. poschodie' || activeFloor === '3. poschodie') ? (
                     <FloorPlanMap
                       floor={activeFloor}
                       locations={locationsOnActiveFloor}

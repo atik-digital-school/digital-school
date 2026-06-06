@@ -13,8 +13,9 @@ interface Zone {
 // Base zones use 2nd-floor room numbers (19-23).
 // For 1st floor, each number is shifted by FLOOR_OFFSET.
 const FLOOR_OFFSET: Record<string, number> = {
-  '2. poschodie': 0,
   '1. poschodie': -5,
+  '2. poschodie': 0,
+  '3. poschodie': 5,
 };
 
 function buildZones(floor: string): Zone[] {
