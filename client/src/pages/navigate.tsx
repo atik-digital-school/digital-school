@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import confetti from 'canvas-confetti';
 
 const ROOM_DIRECTIONS: Record<string, string[]> = {
     // PRÍZEMIE (Prízemie)
@@ -240,6 +241,8 @@ export default function NavigatePage() {
     } | null>(null);
 
     const [currentStep, setCurrentStep] = useState(0);
+    const [arrived, setArrived] = useState(false);
+    const firedRef = useRef(false);
 
     useEffect(() => {
         const search = new URLSearchParams(window.location.search);
@@ -250,6 +253,21 @@ export default function NavigatePage() {
             type: search.get('type') || 'classroom',
         });
     }, []);
+
+    useEffect(() => {
+        if (!params) return;
+        const steps = ROOM_DIRECTIONS[params.room] || getFallbackDirections(params.floor, params.room, params.name);
+        if (currentStep === steps.length - 1 && !firedRef.current) {
+            firedRef.current = true;
+            setArrived(true);
+            const fire = (angle: number, origin: { x: number; y: number }) =>
+                confetti({ particleCount: 80, spread: 70, angle, origin, zIndex: 9999 });
+            fire(60,  { x: 0, y: 0.6 });
+            fire(120, { x: 1, y: 0.6 });
+            setTimeout(() => { fire(80, { x: 0.2, y: 0.5 }); fire(100, { x: 0.8, y: 0.5 }); }, 300);
+            setTimeout(() => { fire(90, { x: 0.5, y: 0.3 }); }, 600);
+        }
+    }, [currentStep, params]);
 
     if (!params) return null;
 
@@ -273,6 +291,42 @@ export default function NavigatePage() {
             fontFamily: "'Inter', 'Segoe UI', system-ui, sans-serif",
             padding: '0 0 40px',
         }}>
+            {/* Full-screen arrival celebration */}
+            {arrived && (
+                <div
+                    onClick={() => setArrived(false)}
+                    style={{
+                        position: 'fixed', inset: 0, zIndex: 9998,
+                        background: 'linear-gradient(160deg, #0ea5e9 0%, #6366f1 50%, #a855f7 100%)',
+                        display: 'flex', flexDirection: 'column',
+                        alignItems: 'center', justifyContent: 'center',
+                        gap: 24, padding: 32, cursor: 'pointer',
+                        animation: 'fadeIn 0.4s ease',
+                    }}
+                >
+                    <style>{`@keyframes fadeIn { from { opacity:0; transform:scale(0.95) } to { opacity:1; transform:scale(1) } }
+                    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }`}</style>
+                    <div style={{ fontSize: 96, animation: 'bounce 1s ease infinite' }}>🎉</div>
+                    <div style={{ fontSize: 36, fontWeight: 900, color: 'white', textAlign: 'center', lineHeight: 1.2 }}>
+                        Ste na mieste!
+                    </div>
+                    <div style={{
+                        fontSize: 22, fontWeight: 700, color: 'rgba(255,255,255,0.9)',
+                        textAlign: 'center', lineHeight: 1.4,
+                    }}>
+                        {name || `Miestnosť ${room}`}
+                    </div>
+                    <div style={{
+                        background: 'rgba(255,255,255,0.18)', borderRadius: 16,
+                        padding: '10px 24px', fontSize: 15, color: 'white', fontWeight: 600,
+                    }}>
+                        📍 {floor} · č. {room}
+                    </div>
+                    <div style={{ marginTop: 16, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
+                        Klepnite kdekoľvek pre pokračovanie
+                    </div>
+                </div>
+            )}
             {/* Header */}
             <div style={{
                 background: 'white',
